@@ -109,6 +109,10 @@ module Mongoid
       self_followees & model_followees
     end
 
+    def all_followed(model)
+      model.where(:_id.in => (self.followees.map {|f| f.ff_id}))
+    end
+
     private
     def get_followees_of(me, model = nil)
       followees = !model ? me.followees : me.followees.where(:ff_type => model.to_s)
